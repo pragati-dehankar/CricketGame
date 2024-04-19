@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bat Ball Stump game</h1>
+    <button onclick="let cpuChoice= generateCpuChoice();
+    let result=getResult('Bat',cpuChoice);
+    showResult('Bat',cpuChoice,result);
+    ">Bat</button>
+
+
+    <button onclick="cpuChoice= generateCpuChoice();
+   result=getResult('Ball',cpuChoice);
+   showResult('Ball',cpuChoice,result)">Ball</button>
+
+
+
+    <button  onclick="cpuChoice= generateCpuChoice(); 
+      result=getResult('Stump',cpuChoice);
+      showResult('Stump',cpuChoice,result)">Stump</button>
+
+
+   <script>
+let score={
+    win:0,
+    lost:0,
+    tie:0,
+
+    displayScore:function(){
+        return ` win:${score.win},lost:${score.lost},tie:${score.tie}`
+    }
+};
+
+    
+    function generateCpuChoice(){
+        let randomNo=Math.random()*3;
+    if(randomNo>0 && randomNo<=1 ){ 
+        return 'Bat';
+    }
+        else if(randomNo>1 && randomNo<=2){
+            return 'Ball';
+        }
+        else{
+        return 'Stump';
+   }
+}
+
+     function getResult(userMove,cpuMove){
+        if(userMove==='Bat' ){
+            if( cpuMove==='Ball'){
+                score.win++;
+            return 'User won.'
+            }
+        else if(cpuMove==='Bat'){
+            score.tie++;
+            return 'Its a tie.'
+        }else if(cpuMove==='Stump'){
+            score.lost++;
+           return 'Computer has won.'
+        }
+    }
+         else if(userMove==='Ball'){
+            if(cpuMove==='Ball'){
+                score.tie++;
+                return 'Its a tie.'
+            }
+            else if(cpuMove==='Bat'){
+                score.lost++;
+                return 'Computer has won.'
+            }
+            else if(cpuMove==='Stump'){
+                score.win++;
+                return 'User won.'
+            }
+         }
+         else {
+            if(cpuMove==='Ball'){
+                score.lost++;
+                return 'Computer has won.'
+            }
+            else if(cpuMove==='Bat'){
+                score.win++;
+                return 'User won.'
+            }
+            else if(cpuMove==='Stump'){
+                score.tie++;
+                return 'Its a tie.'
+            }
+         }
+
+     }
+
+     function showResult(userMove,cpuMove,result) {
+        console.log(score);
+         alert(`You have chosen ${userMove} And cpu Choice is ${cpuMove} and 
+         
+         ${result}
+         
+         ${score.displayScore()}`);
+     }
+    
+   </script>
+</body>
+</html>

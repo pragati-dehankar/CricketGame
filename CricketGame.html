@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="stylesheet" href="cricket.css">
+  
+</head>
+<body>
+    <h1>Bat Ball Stump game</h1>
+
+    
+    <button class="btn" onclick="let cpuChoice= generateCpuChoice();
+    let result=getResult('Bat',cpuChoice);
+    showResult('Bat',cpuChoice,result);
+    "> <img src="bat.webp" alt="Bat image" class="choiceBtn">
+</button>
+
+
+    <button class="btn" onclick="cpuChoice= generateCpuChoice();
+   result=getResult('Ball',cpuChoice);
+   showResult('Ball',cpuChoice,result)"> <img src="ball.jpg" alt="Ball image" class="choiceBtn">
+</button>
+
+
+
+    <button class="btn" onclick="cpuChoice= generateCpuChoice(); 
+      result=getResult('Stump',cpuChoice);
+      showResult('Stump',cpuChoice,result)"> <img src="Stump.jpg" alt="Stump image" class="choiceBtn">
+</button>
+
+
+
+
+
+<h3 id="user-move"></h3>
+<h3 id="cpu-move"></h3>
+<h3 id="result"></h3>
+<h3 id="score"></h3>
+
+
+<button onclick="localStorage.clear();
+resetScore();">Reset</button>
+
+   <script>
+
+    let scoreStr=localStorage.getItem('Score');
+    let score;
+    resetScore(scoreStr);
+    function resetScore(scoreStr) {
+        
+         score=scoreStr? JSON.parse(scoreStr) : {
+        win:0,
+        lost:0,
+        tie:0,
+    };
+        
+    
+        score.displayScore= function(){
+            return `Score: won:${score.win},lost:${score.lost},tie:${score.tie}`
+        };
+        showResult();
+    }
+
+    function generateCpuChoice(){
+        let randomNo=Math.random()*3;
+    if(randomNo>0 && randomNo<=1 ){ 
+        return 'Bat';
+    }
+        else if(randomNo>1 && randomNo<=2){
+            return 'Ball';
+        }
+        else{
+        return 'Stump';
+   }
+}
+
+     function getResult(userMove,cpuMove){
+        if(userMove==='Bat' ){
+            if( cpuMove==='Ball'){
+                score.win++;
+            return 'User won.'
+            }
+        else if(cpuMove==='Bat'){
+            score.tie++;
+            return 'Its a tie.'
+        }else if(cpuMove==='Stump'){
+            score.lost++;
+           return 'Computer has won.'
+        }
+    }
+         else if(userMove==='Ball'){
+            if(cpuMove==='Ball'){
+                score.tie++;
+                return 'Its a tie.'
+            }
+            else if(cpuMove==='Bat'){
+                score.lost++;
+                return 'Computer has won.'
+            }
+            else if(cpuMove==='Stump'){
+                score.win++;
+                return 'User won.'
+            }
+         }
+         else {
+            if(cpuMove==='Ball'){
+                score.lost++;
+                return 'Computer has won.'
+            }
+            else if(cpuMove==='Bat'){
+                score.win++;
+                return 'User won.'
+            }
+            else if(cpuMove==='Stump'){
+                score.tie++;
+                return 'Its a tie.'
+            }
+         }
+
+     }
+
+     function showResult(userMove,cpuMove,result) {
+
+        localStorage.setItem('Score',JSON.stringify(score));
+
+        document.querySelector('#user-move').innerText=userMove?`You have chosen ${userMove}`:'';
+        document.querySelector('#cpu-move').innerText=cpuMove ?`cpu Choice is ${cpuMove}`:'';
+        document.querySelector('#result').innerText=result || '';
+        //document.querySelector('#result').innerText=result ? result:'';
+        document.querySelector('#score').innerText=score.displayScore();
+         
+       // alert(`You have chosen ${userMove} And cpu Choice is ${cpuMove} and ${result} ${score.displayScore()}`);
+     }
+    
+   </script>
+</body>
+</html>
